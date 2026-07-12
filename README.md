@@ -70,7 +70,7 @@ print(df_results[['y', 'mu', 'b', 'survival']])
 
 Upon execution, the pipeline outputs:
 1. An optimization summary specifying optimal parameter states ($\delta, \beta, \gamma, \omega, \alpha, \kappa, c, \sigma^2$).
-2. An automated analytical chart plotting the **Model Mean ($\mu_t$)** and the **Explosive Bubble Component ($b_t$)** highlighting active bubble regimes.
+2. An automated analytical chart plotting the **Fundemental Asset Value ($\mu_t$)** and the **Explosive Bubble Component ($b_t$)** highlighting active bubble regimes.
 
 ## References
 Francisco Blasques, Siem Jan Koopman*, Marc Nientker (2022). A time-varying parameter model for local explosions. Journal of Econometrics, (227) 65-84.
