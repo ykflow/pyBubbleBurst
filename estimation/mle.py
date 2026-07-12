@@ -28,7 +28,7 @@ class MaximumLikelihoodEstimation:
             ell_vector = self.filter.get_log_likelihood()
             return ell_vector[self.burn_in:].sum()
         except Exception:
-            return np.array([1e100])
+            return 1e100
 
     def _objf(self, transformed_params: np.ndarray) -> np.ndarray:
         untransformed_params = self.transformer.untransform(transformed_params)
@@ -36,7 +36,7 @@ class MaximumLikelihoodEstimation:
         sum_ll = self._loglike(kwargs_ll=kwargs_ll)
         objective_value = -sum_ll / self.T
 
-        print(f"Objective value: {objective_value:.6f}")
+        # print(f"Objective value: {objective_value:.6f}")
         return objective_value
 
     def estimate(self):

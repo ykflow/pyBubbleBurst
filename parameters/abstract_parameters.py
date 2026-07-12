@@ -37,6 +37,14 @@ class AbstractParameterTransformer(ABC):
         """Domain R -> (0, inf)"""
         return np.exp(val)
 
+    def from_1_plus_to_r(self, val: np.ndarray) -> np.ndarray:
+        """Domain R -> (1, inf)"""
+        return np.log(val - 1 )
+
+    def from_r_to_1_plus(self, val: np.ndarray) -> np.ndarray:
+        """Domain R -> (0, 1) (using Sigmoid link function)"""
+        return np.exp(val) + 1
+
     def from_0_1_to_r(self, val: np.ndarray) -> np.ndarray:
         """Domain (0, 1) -> R (using Logit link function)"""
         return -np.log((1.0 - val) / val)
@@ -44,3 +52,4 @@ class AbstractParameterTransformer(ABC):
     def from_r_to_0_1(self, val: np.ndarray) -> np.ndarray:
         """Domain R -> (0, 1) (using Sigmoid link function)"""
         return np.exp(val) / (1.0 + np.exp(val))
+

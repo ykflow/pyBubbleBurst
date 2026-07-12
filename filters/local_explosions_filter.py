@@ -18,8 +18,7 @@ class LocalExplosionsFilter(AbstractFilters):
 
     def run_filter(self, y, delta, beta, gamma, omega, alpha, kappa, c, sigma2):
         mu, b, survival, margin, threshold_, eps, ell = local_explosions_filter(
-            y, delta, beta, gamma, omega, alpha, kappa, c, sigma2
-        )
+            y, delta, beta, gamma, omega, alpha, kappa, c, sigma2)
         self.mu = mu
         self.b = b
         self.survival = survival
@@ -32,7 +31,7 @@ class LocalExplosionsFilter(AbstractFilters):
         return self.ell
 
 
-@jit(nopython=True, cache=True, fastmath=True)
+# @jit(nopython=True, cache=True)
 def local_explosions_filter(y, delta, beta, gamma, omega, alpha, kappa, c, sigma2):
     # set-up
     T = len(y)
@@ -53,12 +52,13 @@ def local_explosions_filter(y, delta, beta, gamma, omega, alpha, kappa, c, sigma
     for t in range(1,T):
         mu[t] = delta + beta * mu[t-1] + gamma * (y[t-1] - mu[t-1] - b[t-1])
         threshold_[t] = kappa * (mu[t] - c) # E4 threshold
-        margin[t] = threshold_[t] - b[t-1]
-        survival[t] = float(margin[t] > 0.)
-        b[t] = (omega + alpha * b[t-1]) * survival
+        margin[t] = b[t-1] - threshold_[t]
+        survival[t] = 1.0 if margin[t] < 0.0 else 0.0
+        b[t] = (omega + alpha * b[t-1]) * survival[t-1]
         eps[t] = y[t] - mu[t] - b[t]
         eps2 = eps[t] * eps[t]
-        ell[t] = -0.5 * (log_2pi_sigma2 + log_2pi_sigma2 + eps2/sigma2)
+        # print(sigma2)
+        ell[t] = -0.5 * (log_2pi_sigma2 + eps2/sigma2)
 
     return mu, b, survival, margin, threshold_, eps, ell
 
