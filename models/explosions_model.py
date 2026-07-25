@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from filters.abstract_filters import AbstractFilters
 from filters.filters_factory import FiltersFactory
-from parameters.e4_parameter_transformations import E4ParameterTransformations
+from parameters.gaussian_filter_parameters import G2ParameterTransformations
 from estimation.mle import MaximumLikelihoodEstimation
 from utilities.utils import detrend_linear
 
@@ -24,7 +24,7 @@ class DynamicLocalExplosionsModel:
         self.filter_instance = FiltersFactory.create(factory_key)
 
         if self.bubble_type == "E4":
-            self.transformer = E4ParameterTransformations()
+            self.transformer = G2ParameterTransformations()
         else:
             raise ValueError(f"Unsupported bubble model specification type: '{bubble_type}'")
 

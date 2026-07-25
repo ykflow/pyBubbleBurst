@@ -1,12 +1,12 @@
 import numpy as np
 from scipy.optimize import minimize, approx_fprime
 from filters.abstract_filters import AbstractFilters
-from parameters.abstract_parameters import AbstractParameterTransformer
+from parameters.parameter_transformer import ParameterTransformer
 from time import time
 
 
 class MaximumLikelihoodEstimation:
-    def __init__(self, y: np.ndarray, filter_instance: AbstractFilters, transformer: AbstractParameterTransformer,
+    def __init__(self, y: np.ndarray, filter_instance: AbstractFilters, transformer: ParameterTransformer,
                  max_iter_mle: int = 500, burn_in: int = 1):
         self.y = y
         self.T = len(y)
