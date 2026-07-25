@@ -24,7 +24,7 @@ def detrend_linear(y: np.ndarray) -> np.ndarray:
     return y_arr - trend
 
 
-def load_btc_data(file_path: str) -> pd.DataFrame:
+def load_btc_fred_data(file_path: str) -> pd.DataFrame:
     """
     Loads FRED formatted CBBTCUSD CSV files, handles date indices,
     and fills missing historical values (e.g., periods containing drops/periods like '.').
@@ -38,4 +38,22 @@ def load_btc_data(file_path: str) -> pd.DataFrame:
     df = df.set_index('Date')
     df['BTC/USD'] = pd.to_numeric(df['BTC/USD'], errors='coerce')
     df['BTC/USD'] = df['BTC/USD'].ffill().bfill()
-    return df
+    return df #df[df.index.dayofweek==4]
+
+
+
+def load_btc_bitbo_data(file_path: str) -> pd.DataFrame:
+    """
+    Loads BITBO formatted CBBTCUSD CSV files, handles date indices,
+    and fills missing historical values (e.g., periods containing drops/periods like '.').
+    """
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(f"Target data payload missing at: {file_path}")
+
+    df = pd.read_csv(file_path)
+    df = df.rename(columns={'DateTime': 'Date', 'Bitcoin Price Linear':'BTC/USD'})
+    df['Date'] = pd.to_datetime(df['Date'])
+    df = df.set_index('Date')
+    df['BTC/USD'] = pd.to_numeric(df['BTC/USD'], errors='coerce')
+    df['BTC/USD'] = df['BTC/USD'].ffill().bfill()
+    return df #df[df.index.dayofweek==4]

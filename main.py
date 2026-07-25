@@ -2,21 +2,24 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 from models.explosions_model import DynamicLocalExplosionsModel
-from utilities.utils import load_btc_data
+from utilities.utils import load_btc_bitbo_data, load_btc_fred_data
 from plotting_tools.set_plotting_theme import set_theme, colors
 
 
-
-
 def main():
+    start_date = '20160101'
+    end_date = '20280701'
     set_theme()
 
     csv_path = os.path.join("datasets", "CBBTCUSD.csv")
+    # csv_path = os.path.join("datasets", "BTC.csv")
     print(f"[*] Reading and preprocessing market data from: {csv_path}")
 
-    data = load_btc_data(csv_path)
-    data = data[data.index > '2016']
+    # data = load_btc_bitbo_data(csv_path)
+    data = load_btc_fred_data(csv_path)
+    data = data[(data.index >= start_date) & (data.index <= end_date)]
     raw_prices = data['BTC/USD'].values
+    # log_prices = (raw_prices)
     log_prices = np.log(raw_prices)
 
 
@@ -28,7 +31,7 @@ def main():
     model = DynamicLocalExplosionsModel(y=log_prices, bubble_type="E4", detrend=True)
 
     print("[*] Launching maximum likelihood optimization sequence (SLSQP solver)...")
-    model.fit(burn_in=15, max_iter_mle=300)
+    model.fit(burn_in=15, max_iter_mle=10000)
 
     print("\n" + "=" * 40)
     print("      ESTIMATED PARAMETERS SUMMARY      ")
@@ -36,6 +39,8 @@ def main():
     if model.estimated_params:
         for param_name, optimal_val in model.estimated_params.items():
             print(f"  {param_name:<12} : {optimal_val:.6f}")
+    print("-" * 40)
+    print(f"  LogLik : {model.states.ell.sum():.6f}")
     print("-" * 40)
     print(f"  Optimization Success : {model.mle_summary.success}")
     print(f"  Optimizer Message    : {model.mle_summary.message}")
