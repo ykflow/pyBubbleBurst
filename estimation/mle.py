@@ -28,14 +28,14 @@ class MaximumLikelihoodEstimation:
             ell_vector = self.filter.get_log_likelihood()
             return ell_vector[self.burn_in:].sum()
         except Exception:
-            return 1e100
+            return np.inf
 
     def _objf(self, transformed_params: np.ndarray) -> np.ndarray:
         untransformed_params = self.transformer.untransform(transformed_params)
         kwargs_ll = self.transformer.to_kwargs(untransformed_params)
         sum_ll = self._loglike(kwargs_ll=kwargs_ll)
-        objective_value = -sum_ll / self.T
-
+        val = -sum_ll / self.T
+        objective_value = np.inf if np.isnan(val) else val
         # print(f"Objective value: {objective_value:.6f}")
         return objective_value
 
