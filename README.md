@@ -1,7 +1,7 @@
 # pyBubbleBurst
 <img width="2000" height="1000" alt="filtered_explosions_btc" src="https://github.com/user-attachments/assets/2d681a07-10a9-4bd6-af47-e2221e89ce2d" />
 
-(Work in Progress) A high-performance econometric time-series pipeline for identifying and tracking explosive speculative regimes (bubbles) and sudden collapses in asset prices. This project implements the **Dynamic Local Explosions Filter (E4 Specification)** of Blasques et al.(2022), whilst utilizing unconstrained Maximum Likelihood Estimation (MLE) routine driven by a decoupled abstract architecture.
+**(Work in Progress)** A high-performance econometric time-series pipeline for identifying and tracking explosive speculative regimes (bubbles) and sudden collapses in asset prices. This project implements the **Dynamic Local Explosions Filter (E4 Specification)** of Blasques et al.(2022), whilst utilizing unconstrained Maximum Likelihood Estimation (MLE) routine driven by a decoupled abstract architecture.
 
 ## Key Features
 
