@@ -1,16 +1,16 @@
 # pyBubbleBurst
 <img width="2000" height="1000" alt="filtered_explosions_btc" src="https://github.com/user-attachments/assets/2d681a07-10a9-4bd6-af47-e2221e89ce2d" />
 
-A high-performance econometric time-series pipeline for identifying and tracking explosive speculative regimes (bubbles) and sudden collapses in asset prices. This project implements the **Dynamic Local Explosions Filter (E4 Specification)** of Blasques et al.(2022), whilst utilizing unconstrained Maximum Likelihood Estimation (MLE) routine driven by a decoupled abstract architecture.
+(Work in Progress) A high-performance econometric time-series pipeline for identifying and tracking explosive speculative regimes (bubbles) and sudden collapses in asset prices. This project implements the **Dynamic Local Explosions Filter (E4 Specification)** of Blasques et al.(2022), whilst utilizing unconstrained Maximum Likelihood Estimation (MLE) routine driven by a decoupled abstract architecture.
 
-## 🚀 Key Features
+## Key Features
 
-* **Blazing Fast Computation**: Core recursive filtering operations are fully compiled to native machine code via **Numba JIT (`nopython=True`, `fastmath=True`)**.
+* **Fast Computation**: Core recursive filtering operations are fully compiled to native machine code via **Numba JIT (`nopython=True`, `fastmath=True`)**.
 * **Unconstrained MLE Optimization**: Leverages parameter tracking layers to map constrained variable domains (like variances and coefficients) into \(\mathbb{R}\) space for robust `scipy.optimize` convergence.
 * **Extensible Architecture**: Utilizes a strict Registry-driven Factory design pattern (`FiltersFactory`), letting you plug in new filter modules seamlessly.
 * **Built-in Preprocessing**: Includes a clean, native linear detrender to isolate structural cycles from long-term asset drift.
 
-## 🛠️ Project Structure
+## Project Structure
 
 ```text
 pyBubbleBurst/
@@ -25,7 +25,7 @@ pyBubbleBurst/
 └── main.py                   # Master orchestration entry-point
 ```
 
-## 📦 Installation & Setup
+## Installation & Setup
 
 1. **Clone the repository** and navigate to your project directory:
    ```bash
@@ -38,7 +38,7 @@ pyBubbleBurst/
    ```
    *Note: This project targets **Python 3.11** or **Python 3.12** due to Numba compilation specifications.*
 
-## 📈 Quick Start
+## Quick Start
 
 Place your asset price history (e.g., `CBBTCUSD.csv` formatted from FRED) inside the `datasets/` folder, then run the execution script:
 
@@ -66,11 +66,11 @@ df_results = model.states
 print(df_results[['y', 'mu', 'b', 'survival']])
 ```
 
-## 📊 Outputs
+## Outputs
 
 Upon execution, the pipeline outputs:
 1. An optimization summary specifying optimal parameter states ($\delta, \beta, \gamma, \omega, \alpha, \kappa, c, \sigma^2$).
 2. An automated analytical chart plotting the **Fundemental Asset Value ($\mu_t$)** and the **Explosive Bubble Component ($b_t$)** highlighting active bubble regimes.
 
 ## References
-Francisco Blasques, Siem Jan Koopman*, Marc Nientker (2022). A time-varying parameter model for local explosions. Journal of Econometrics, (227) 65-84.
+Francisco Blasques, Siem Jan Koopman, Marc Nientker (2022). A time-varying parameter model for local explosions. Journal of Econometrics, (227) 65-84.
